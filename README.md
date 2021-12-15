@@ -10,8 +10,16 @@ Then in your dags it can be used:
 from monetdb_plugin import MonetDBOperator
 
 t1 = MonetDBOperator(
-    task_id="example-task",
+    task_id="create-table-task",
+    sql="""
+    CREATE TABLE IF NOT EXISTS foo(
+        bar INT,
+        baz INT
+    );
+    """,
     dag = dag
 )
 ```
+
+This requires [pymonetdb](https://pypi.org/project/pymonetdb/) to be installed
 
