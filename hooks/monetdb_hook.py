@@ -18,15 +18,17 @@ class MonetDBHook(DbApiHook):
         self.connection = kwargs.pop("connection", None)
 
     def get_conn(self) -> pymonetdb.sql.connections.Connection:
+        """
+        Returns a pymonetdb connection by reading the Airflow config.
+        """
         conn = self.connection or self.get_connection(getattr(self, self.conn_name_attr))
         info = self._get_conn_config(conn)
         return pymonetdb.connect(**info)
 
-
     def _get_conn_config(self, conn: Connection) -> Dict:
         return {
-            'username': conn.login,
-            'password': conn.password,
-            'hostname': conn.host,
-            'database': conn.schema,
+            'username': conn.login or "monetdb",
+            'password': conn.password or "monetdb",
+            'hostname': conn.host or "localhost",
+            'database': conn.schema or "demo",
         }
