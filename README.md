@@ -23,3 +23,16 @@ t1 = MonetDBOperator(
 
 This requires [pymonetdb](https://pypi.org/project/pymonetdb/) to be installed
 
+
+## Backend
+MonetDB can also be used as a backend for Airflow. 
+
+However, you do need to define a seperate schema for Airflow.
+This is because Airflow tries to create a table called 'users', which already exists in the default 'sys' table in MonetDB.
+
+```sql
+CREATE SCHEMA airflow;
+
+ALTER USER <your_user> SET SCHEMA airflow;
+```
+
